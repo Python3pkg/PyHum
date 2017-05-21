@@ -58,7 +58,7 @@ def dircopy(src, dest):
         if e.errno == errno.ENOTDIR:
             shutil.copy(src, dest)
         else:
-            print('Directory not copied. Error: %s' % e)
+            print(('Directory not copied. Error: %s' % e))
 
 __all__ = [
     'dotest',

@@ -74,7 +74,7 @@ def auto_bedpick(ft, dep_m, chunkmode, port_fp, c):
     imu = []
 
     if chunkmode!=4:
-      for k in xrange(len(port_fp)):
+      for k in range(len(port_fp)):
          #imu.append(port_fp[k][int(np.min(bed)):int(np.max(bed)),:])
          imu.append(port_fp[k][np.max([0,int(np.min(bed))-buff]):int(np.max(bed))+buff,:])
       imu = np.hstack(imu)
@@ -124,7 +124,7 @@ def auto_bedpick(ft, dep_m, chunkmode, port_fp, c):
 
     # if standard deviation of auto bed pick is too small, then use acoustic bed pick
     if np.std(x)<5:
-       print "stdev of auto bed pick is low, using acoustic pick"
+       print("stdev of auto bed pick is low, using acoustic pick")
        x = bed.copy()
 
     return x, bed
@@ -136,7 +136,7 @@ def make_trackline(lon,lat, sonpath, base):
     # create kml for loading path into google earth
     kml = simplekml.Kml()
     ls = kml.newlinestring(name='trackline')
-    ls.coords = zip(lon,lat)
+    ls.coords = list(zip(lon,lat))
     ls.extrude = 1
     ls.altitudemode = simplekml.AltitudeMode.relativetoground
     ls.style.linestyle.width = 5
@@ -154,7 +154,7 @@ def get_depth(dep_m):
 def get_dist(lat, lon):
 
     dist = np.zeros(len(lat))
-    for k in xrange(len(lat)-1):
+    for k in range(len(lat)-1):
        dist[k] = distBetweenPoints(lat[k], lat[k+1], lon[k], lon[k+1])
 
     return np.cumsum(dist)
@@ -169,7 +169,7 @@ def get_bearing(calc_bearing, filt_bearing, lat, lon, heading): #cog
 
        #point-to-point bearing
        bearing = np.zeros(len(lat))
-       for k in xrange(len(lat)-1):
+       for k in range(len(lat)-1):
           bearing[k] = bearingBetweenPoints(lat[k], lat[k+1], lon[k], lon[k+1])
        #del lat, lon
 
@@ -181,7 +181,7 @@ def get_bearing(calc_bearing, filt_bearing, lat, lon, heading): #cog
 
     # if stdev in heading is large, there's probably noise that needs to be filtered out
     if np.std(bearing)>180:
-       print "WARNING: large heading stdev - attempting filtering"
+       print("WARNING: large heading stdev - attempting filtering")
        from sklearn.cluster import MiniBatchKMeans
        # can have two modes
        data = np.column_stack([bearing, bearing])
@@ -398,7 +398,7 @@ def sliding_window_nomm(a,ws,ss = None,flatten = True):
     firstdim = (np.product(newshape[:-meat]),) if ws.shape else ()
     dim = firstdim + (newshape[-meat:])
     # remove any dimensions with size 1
-    dim = filter(lambda i : i != 1,dim)
+    dim = [i for i in dim if i != 1]
 
     return a.reshape(dim), newshape
 
@@ -462,19 +462,19 @@ def sliding_window(a,ws,ss = None,flatten = True):
       firstdim = (int(np.product(newshape[:-meat])),) if ws.shape else ()
       dim = firstdim + (newshape[-meat:])
       # remove any dimensions with size 1
-      dim = filter(lambda i : i != 1,dim)
+      dim = [i for i in dim if i != 1]
 
       return a.reshape(dim), newshape
 
    except:
 
       from itertools import product
-      print "memory error, windowing using slower method"
+      print("memory error, windowing using slower method")
       # For each dimension, create a list of all valid slices
       slices = [[] for i in range(len(ws))]
-      for i in xrange(len(ws)):
+      for i in range(len(ws)):
          nslices = ((shap[i] - ws[i]) // ss[i]) + 1
-         for j in xrange(0,nslices):
+         for j in range(0,nslices):
             start = j * ss[i]
             stop = start + ws[i]
             slices[i].append(slice(start,stop))
@@ -549,7 +549,7 @@ def sliding_window_sliced(a,density, ws,ss = None,flatten = True):
    dim = list(dim)
    dim[-1] = len(r)
    ## remove any dimensions with size 1
-   dim = filter(lambda i : i != 1,dim)
+   dim = [i for i in dim if i != 1]
    dim = tuple(dim)
 
    newshape = np.shape(a)
@@ -568,7 +568,7 @@ def dpboundary(imu):
    p = np.zeros((m,n))
    c[0,:] = imu[0,:]
 
-   for i in xrange(1,m):
+   for i in range(1,m):
       c0 = c[i-1,:]
       tmp1 = np.squeeze(ascol(np.hstack((c0[1:],c0[-1]))))
       tmp2 = np.squeeze(ascol(np.hstack((c0[0], c0[0:len(c0)-1]))))
@@ -583,7 +583,7 @@ def dpboundary(imu):
    x = np.zeros((m,1))
    #cost = np.min(c[-1,:])
    xpos = np.argmin( c[-1,:] )
-   for i in reversed(range(1,m)):
+   for i in reversed(list(range(1,m))):
       x[i] = xpos
       if p[i,xpos]==2 and xpos<n:
          xpos = xpos+1

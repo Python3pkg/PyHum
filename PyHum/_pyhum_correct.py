@@ -55,12 +55,12 @@
 # =========================================================
 
 #operational
-from __future__ import division
+
 from scipy.io import savemat, loadmat
 import os, time #, sys, getopt
 try:
-   from Tkinter import Tk
-   from tkFileDialog import askopenfilename, askdirectory
+   from tkinter import Tk
+   from tkinter.filedialog import askopenfilename, askdirectory
 except:
    pass
 from joblib import Parallel, delayed, cpu_count
@@ -185,59 +185,59 @@ def correct(humfile, sonpath, maxW=1000, doplot=1, dofilt=0, correct_withwater=0
 
     # prompt user to supply file if no input file given
     if not humfile:
-      print 'An input file is required!!!!!!'
+      print('An input file is required!!!!!!')
       Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
       inputfile = askopenfilename(filetypes=[("DAT files","*.DAT")]) 
 
     # prompt user to supply directory if no input sonpath is given
     if not sonpath:
-      print 'A *.SON directory is required!!!!!!'
+      print('A *.SON directory is required!!!!!!')
       Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
       sonpath = askdirectory() 
 
     # print given arguments to screen and convert data type where necessary
     if humfile:
-      print 'Input file is %s' % (humfile)
+      print('Input file is %s' % (humfile))
 
     if sonpath:
-      print 'Sonar file path is %s' % (sonpath)
+      print('Sonar file path is %s' % (sonpath))
 
     if maxW:
       maxW = np.asarray(maxW,float)
-      print 'Max. transducer power is %s W' % (str(maxW))
+      print('Max. transducer power is %s W' % (str(maxW)))
 
     if doplot:
       doplot = int(doplot)
       if doplot==0:
-         print "Plots will not be made"
+         print("Plots will not be made")
 
     if dofilt:
       dofilt = int(dofilt)
       if dofilt==0:
-         print "Phase preserving filter will not be applied"
+         print("Phase preserving filter will not be applied")
       else:
-         print "Phase preserving filter will be applied"
+         print("Phase preserving filter will be applied")
 
     if correct_withwater:
       correct_withwater = int(correct_withwater)
       if correct_withwater==1:
-         print "Correction will be applied without removing water column"
+         print("Correction will be applied without removing water column")
 
     if salinity:
        salinity = np.asarray(salinity,float)
-       print 'Salinity is %s ppt' % (str(salinity))
+       print('Salinity is %s ppt' % (str(salinity)))
 
     if ph:
        ph = np.asarray(ph,float)
-       print 'pH is %s' % (str(ph))
+       print('pH is %s' % (str(ph)))
 
     if temp:
        temp = np.asarray(temp,float)
-       print 'Temperature is %s' % (str(temp))
+       print('Temperature is %s' % (str(temp)))
 
     if dconcfile is not None:
        try:
-          print 'Suspended sediment size/conc. file is %s' % (dconcfile)
+          print('Suspended sediment size/conc. file is %s' % (dconcfile))
           dconc = np.genfromtxt(dconcfile).T
           conc = dconc[1]
           dens = dconc[2]
@@ -374,7 +374,7 @@ def correct(humfile, sonpath, maxW=1000, doplot=1, dofilt=0, correct_withwater=0
     
     Zt2 = np.empty(np.shape(Zt))
     
-    for kk in xrange(np.shape(Zt)[1]):
+    for kk in range(np.shape(Zt)[1]):
        Zt2[:,kk] = (Zt[:,kk] - avg) + np.nanmean(avg)
     Zt2[Zt<=0] = np.nan
     Zt2[Zt2<=0] = np.nan    
@@ -413,7 +413,7 @@ def correct(humfile, sonpath, maxW=1000, doplot=1, dofilt=0, correct_withwater=0
     
     Zt2 = np.empty(np.shape(Zt))
     
-    for kk in xrange(np.shape(Zt)[1]):
+    for kk in range(np.shape(Zt)[1]):
        Zt2[:,kk] = (Zt[:,kk] - avg) + np.nanmean(avg)
     Zt2[Zt<=0] = np.nan
     Zt2[Zt2<=0] = np.nan    
@@ -435,7 +435,7 @@ def correct(humfile, sonpath, maxW=1000, doplot=1, dofilt=0, correct_withwater=0
           star_fpw = io.get_mmap_data(sonpath, base, '_data_star_lw.dat', 'float32', shape_star) 
           
           if len(np.shape(star_fpw))>2:
-             for p in xrange(len(star_fpw)):
+             for p in range(len(star_fpw)):
                 plot_merged_scans(port_fpw[p], star_fpw[p], dist_m, shape_port, ft, sonpath, p)
           else:
              plot_merged_scans(port_fpw, star_fpw, dist_m, shape_port, ft, sonpath, 0)
@@ -443,7 +443,7 @@ def correct(humfile, sonpath, maxW=1000, doplot=1, dofilt=0, correct_withwater=0
        else:
 
           if len(np.shape(star_fp))>2:
-             for p in xrange(len(star_fp)):
+             for p in range(len(star_fp)):
                 plot_merged_scans(port_fp[p], star_fp[p], dist_m, shape_port, ft, sonpath, p)
           else:
              plot_merged_scans(port_fp, star_fp, dist_m, shape_port, ft, sonpath, 0)
@@ -524,7 +524,7 @@ def correct(humfile, sonpath, maxW=1000, doplot=1, dofilt=0, correct_withwater=0
        
        if doplot==1:
           if len(np.shape(low_fp))>2:
-             for p in xrange(len(low_fp)):
+             for p in range(len(low_fp)):
                 plot_dwnlow_scans(low_fp[p], dist_m, shape_low, ft, sonpath, p)
           else:
              plot_dwnlow_scans(low_fp, dist_m, shape_low, ft, sonpath, 0)
@@ -552,7 +552,7 @@ def correct(humfile, sonpath, maxW=1000, doplot=1, dofilt=0, correct_withwater=0
        
        if doplot==1:
           if len(np.shape(hi_fp))>2:
-             for p in xrange(len(hi_fp)):
+             for p in range(len(hi_fp)):
                 plot_dwnhi_scans(hi_fp[p], dist_m, shape_hi, ft, sonpath, p)
           else:
              plot_dwnhi_scans(hi_fp, dist_m, shape_hi, ft, sonpath, 0)
@@ -561,9 +561,9 @@ def correct(humfile, sonpath, maxW=1000, doplot=1, dofilt=0, correct_withwater=0
        elapsed = (time.time() - start)
     else: # windows
        elapsed = (time.clock() - start)
-    print "Processing took ", elapsed , "seconds to analyse"
+    print("Processing took ", elapsed , "seconds to analyse")
 
-    print "Done!"
+    print("Done!")
 
 
 # =========================================================
@@ -631,13 +631,13 @@ def remove_water(fp,bed,shape, dep_m, pix_m, calcR,  maxW):
        A = []
 
     if  len(np.shape(fp))>2:
-       for p in xrange(len(fp)):
+       for p in range(len(fp)):
           data_dB = fp[p]*(10*np.log10(maxW)/255)
 
           Zbed = np.squeeze(bed[shape[-1]*p:shape[-1]*(p+1)])
 
           # shift proportionally depending on where the bed is
-          for k in xrange(np.shape(data_dB)[1]):
+          for k in range(np.shape(data_dB)[1]):
              try:
                 data_dB[:,k] = np.r_[data_dB[Zbed[k]:,k], np.zeros( (np.shape(data_dB)[0] -  np.shape(data_dB[Zbed[k]:,k])[0] ,) )]
              except:
@@ -659,7 +659,7 @@ def remove_water(fp,bed,shape, dep_m, pix_m, calcR,  maxW):
                 r[:,k] = np.sqrt(yvec**2 - d[k]**2)
 
              # shift proportionally depending on where the bed is
-             for k in xrange(np.shape(r)[1]):
+             for k in range(np.shape(r)[1]):
                 try:
                    r[:,k] = np.r_[r[Zbed[k]:,k], np.zeros( (np.shape(r)[0] -  np.shape(r[Zbed[k]:,k])[0] ,) )]
                    a[:,k] = np.r_[a[Zbed[k]:,k], np.zeros( (np.shape(a)[0] -  np.shape(a[Zbed[k]:,k])[0] ,) )]
@@ -677,7 +677,7 @@ def remove_water(fp,bed,shape, dep_m, pix_m, calcR,  maxW):
        Zbed = np.squeeze(bed)
 
        # shift proportionally depending on where the bed is
-       for k in xrange(np.shape(data_dB)[1]):
+       for k in range(np.shape(data_dB)[1]):
           try:
             data_dB[:,k] = np.r_[data_dB[Zbed[k]:,k], np.zeros( (np.shape(data_dB)[0] -  np.shape(data_dB[Zbed[k]:,k])[0] ,) )]
           except:
@@ -699,7 +699,7 @@ def remove_water(fp,bed,shape, dep_m, pix_m, calcR,  maxW):
              r[:,k] = np.sqrt(yvec**2 - d[k]**2)
 
           # shift proportionally depending on where the bed is
-          for k in xrange(np.shape(r)[1]):
+          for k in range(np.shape(r)[1]):
              try:
                 r[:,k] = np.r_[r[Zbed[k]:,k], np.zeros( (np.shape(r)[0] -  np.shape(r[Zbed[k]:,k])[0] ,) )]
                 a[:,k] = np.r_[a[Zbed[k]:,k], np.zeros( (np.shape(a)[0] -  np.shape(a[Zbed[k]:,k])[0] ,) )]
@@ -720,7 +720,7 @@ def correct_scans(fp, a_fp, TL, dofilt):
     if np.ndim(fp)==2:
        return c_scans(fp, a_fp, TL, dofilt)
     else:
-       return Parallel(n_jobs = cpu_count(), verbose=0)(delayed(c_scans)(fp[p], a_fp[p], TL[p], dofilt) for p in xrange(len(fp)))
+       return Parallel(n_jobs = cpu_count(), verbose=0)(delayed(c_scans)(fp[p], a_fp[p], TL[p], dofilt) for p in range(len(fp)))
 
 # =========================================================
 def c_scans(fp, a_fp, TL, dofilt):
@@ -740,7 +740,7 @@ def correct_scans_lambertian(fp, a_fp, TL, R, c, f, theta, alpha):
     if np.ndim(fp)==2:
        return c_scans_lambertian(fp, a_fp, TL, R, c, f, theta, alpha)
     else:
-       return Parallel(n_jobs = cpu_count(), verbose=0)(delayed(c_scans_lambertian)(fp[p], a_fp[p], TL[p], R[p], c, f, theta, alpha) for p in xrange(len(fp)))
+       return Parallel(n_jobs = cpu_count(), verbose=0)(delayed(c_scans_lambertian)(fp[p], a_fp[p], TL[p], R[p], c, f, theta, alpha) for p in range(len(fp)))
        
 # =========================================================
 def c_scans_lambertian(fp, a_fp, TL, R, c, f, theta, alpha):
@@ -787,7 +787,7 @@ def correct_scans2(fp, TL):
     if np.ndim(fp)==2:
        return c_scans2(fp, TL)
     else:
-       return Parallel(n_jobs = cpu_count(), verbose=0)(delayed(c_scans2)(fp[p], TL[p]) for p in xrange(len(fp)))
+       return Parallel(n_jobs = cpu_count(), verbose=0)(delayed(c_scans2)(fp[p], TL[p]) for p in range(len(fp)))
 
 # =========================================================
 def c_scans2(fp, TL):

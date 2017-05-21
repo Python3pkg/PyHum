@@ -55,13 +55,13 @@
 # =========================================================
 
 #operational
-from __future__ import division
+
 from scipy.io import loadmat #savemat, 
 import os, time #, sys, getopt
 #import shutil
 try:
-   from Tkinter import Tk
-   from tkFileDialog import askopenfilename, askdirectory
+   from tkinter import Tk
+   from tkinter.filedialog import askopenfilename, askdirectory
 except:
    pass
 
@@ -130,38 +130,38 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
 
     # prompt user to supply file if no input file given
     if not humfile:
-      print 'An input file is required!!!!!!'
+      print('An input file is required!!!!!!')
       Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
       humfile = askopenfilename(filetypes=[("DAT files","*.DAT")]) 
 
     # prompt user to supply directory if no input sonpath is given
     if not sonpath:
-      print 'A *.SON directory is required!!!!!!'
+      print('A *.SON directory is required!!!!!!')
       Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
       sonpath = askdirectory() 
 
     # print given arguments to screen and convert data type where necessary
     if humfile:
-      print 'Input file is %s' % (humfile)
+      print('Input file is %s' % (humfile))
       
     if sonpath:
-      print 'Sonar file path is %s' % (sonpath)
+      print('Sonar file path is %s' % (sonpath))
 
     if win:
        win = np.asarray(win,int)
-       print 'Window is %s square pixels' % (str(win))
+       print('Window is %s square pixels' % (str(win)))
        
     if shadowmask:
        shadowmask = np.asarray(shadowmask,int)
        if shadowmask==1:
-          print 'Shadow masking is manual'
+          print('Shadow masking is manual')
        else: 
-          print 'Shadow masking is auto'
+          print('Shadow masking is auto')
           
     if doplot:
        doplot = int(doplot)
        if doplot==0:
-          print "Plots will not be made"
+          print("Plots will not be made")
 
 
     # start timer
@@ -202,16 +202,16 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
 
        Zt = []
        if len(np.shape(star_fp))>2:
-          for p in xrange(len(star_fp)):
-             raw_input("Shore picking (starboard), are you ready? 30 seconds. Press Enter to continue...")
+          for p in range(len(star_fp)):
+             input("Shore picking (starboard), are you ready? 30 seconds. Press Enter to continue...")
              shoreline_star={}
              fig = plt.figure()
              ax = plt.gca()
              ax.imshow(star_fp[p], cmap = 'gray') #, origin = 'upper') #im = 
              plt.axis('normal'); plt.axis('tight')
              pts1 = plt.ginput(n=300, timeout=30) # it will wait for 200 clicks or 30 seconds
-             x1=map(lambda x: x[0],pts1) # map applies the function passed as 
-             y1=map(lambda x: x[1],pts1) # first parameter to each element of pts
+             x1=[x[0] for x in pts1] # map applies the function passed as 
+             y1=[x[1] for x in pts1] # first parameter to each element of pts
              shoreline_star = np.interp(np.r_[:np.shape(star_fp[p])[1]],x1,y1)
              plt.close()
              del fig
@@ -220,7 +220,7 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
              
              shoreline_star = np.asarray(shoreline_star,'int')
              # shift proportionally depending on where the bed is
-             for k in xrange(np.shape(star_mg)[1]):
+             for k in range(np.shape(star_mg)[1]):
                 star_mg[shoreline_star[k]:,k] = np.nan
 
              del shoreline_star
@@ -229,15 +229,15 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
              
        else:
 
-          raw_input("Shore picking (starboard), are you ready? 30 seconds. Press Enter to continue...")
+          input("Shore picking (starboard), are you ready? 30 seconds. Press Enter to continue...")
           shoreline_star={}
           fig = plt.figure()
           ax = plt.gca()
           ax.imshow(star_fp, cmap = 'gray') #, origin = 'upper') #im = 
           plt.axis('normal'); plt.axis('tight')
           pts1 = plt.ginput(n=300, timeout=30) # it will wait for 200 clicks or 30 seconds
-          x1=map(lambda x: x[0],pts1) # map applies the function passed as 
-          y1=map(lambda x: x[1],pts1) # first parameter to each element of pts
+          x1=[x[0] for x in pts1] # map applies the function passed as 
+          y1=[x[1] for x in pts1] # first parameter to each element of pts
           shoreline_star = np.interp(np.r_[:np.shape(star_fp)[1]],x1,y1)
           plt.close()
           del fig
@@ -246,7 +246,7 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
 
           shoreline_star = np.asarray(shoreline_star,'int')
           # shift proportionally depending on where the bed is
-          for k in xrange(np.shape(star_mg)[1]):
+          for k in range(np.shape(star_mg)[1]):
              star_mg[shoreline_star[k]:,k] = np.nan
 
           del shoreline_star
@@ -273,17 +273,17 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
 
        Zt = []
        if len(np.shape(star_fp))>2:
-          for p in xrange(len(port_fp)):
+          for p in range(len(port_fp)):
 
-             raw_input("Shore picking (port), are you ready? 30 seconds. Press Enter to continue...")
+             input("Shore picking (port), are you ready? 30 seconds. Press Enter to continue...")
              shoreline_port={}
              fig = plt.figure()
              ax = plt.gca()
              ax.imshow(port_fp[p], cmap = 'gray') #, origin = 'upper') #im = 
              plt.axis('normal'); plt.axis('tight')
              pts1 = plt.ginput(n=300, timeout=30) # it will wait for 200 clicks or 30 seconds
-             x1=map(lambda x: x[0],pts1) # map applies the function passed as 
-             y1=map(lambda x: x[1],pts1) # first parameter to each element of pts
+             x1=[x[0] for x in pts1] # map applies the function passed as 
+             y1=[x[1] for x in pts1] # first parameter to each element of pts
              shoreline_port = np.interp(np.r_[:np.shape(port_fp[p])[1]],x1,y1)
              plt.close()
              del fig
@@ -292,7 +292,7 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
 
              shoreline_port = np.asarray(shoreline_port,'int')
              # shift proportionally depending on where the bed is
-             for k in xrange(np.shape(port_mg)[1]):
+             for k in range(np.shape(port_mg)[1]):
                 port_mg[shoreline_port[k]:,k] = np.nan
 
              del shoreline_port
@@ -301,15 +301,15 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
           
        else:
 
-          raw_input("Shore picking (port), are you ready? 30 seconds. Press Enter to continue...")
+          input("Shore picking (port), are you ready? 30 seconds. Press Enter to continue...")
           shoreline_port={}
           fig = plt.figure()
           ax = plt.gca()
           ax.imshow(port_fp, cmap = 'gray') #, origin = 'upper') #im = 
           plt.axis('normal'); plt.axis('tight')
           pts1 = plt.ginput(n=300, timeout=30) # it will wait for 200 clicks or 30 seconds
-          x1=map(lambda x: x[0],pts1) # map applies the function passed as 
-          y1=map(lambda x: x[1],pts1) # first parameter to each element of pts
+          x1=[x[0] for x in pts1] # map applies the function passed as 
+          y1=[x[1] for x in pts1] # first parameter to each element of pts
           shoreline_port = np.interp(np.r_[:np.shape(port_fp)[1]],x1,y1)
           plt.close()
           del fig
@@ -318,7 +318,7 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
 
           shoreline_port = np.asarray(shoreline_port,'int')
           # shift proportionally depending on where the bed is
-          for k in xrange(np.shape(port_mg)[1]):
+          for k in range(np.shape(port_mg)[1]):
              port_mg[shoreline_port[k]:,k] = np.nan
 
           del shoreline_port
@@ -345,7 +345,7 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
 
        Zs = []; Zp = []
        if len(np.shape(star_fp))>2:
-          for p in xrange(len(star_fp)):
+          for p in range(len(star_fp)):
              merge = np.vstack((np.flipud(port_fp[p]),star_fp[p]))
              merge = np.asarray(merge, 'float64')
 
@@ -366,9 +366,9 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
              #zmean[np.isnan(zmean)] = 0
           
              try: #parallel processing with all available cores     
-                w = Parallel(n_jobs = -1, verbose=0)(delayed(parallel_me)(Z[k]) for k in xrange(len(Z)))
+                w = Parallel(n_jobs = -1, verbose=0)(delayed(parallel_me)(Z[k]) for k in range(len(Z)))
              except: #fall back to serial
-                w = Parallel(n_jobs = 1, verbose=0)(delayed(parallel_me)(Z[k]) for k in xrange(len(Z)))          
+                w = Parallel(n_jobs = 1, verbose=0)(delayed(parallel_me)(Z[k]) for k in range(len(Z)))          
           
              zmean = np.reshape(w , ( ind[0], ind[1] ) )
              del w
@@ -438,9 +438,9 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
           #zmean[np.isnan(zmean)] = 0
           
           try: #parallel processing with all available cores     
-             w = Parallel(n_jobs = -1, verbose=0)(delayed(parallel_me)(Z[k]) for k in xrange(len(Z)))
+             w = Parallel(n_jobs = -1, verbose=0)(delayed(parallel_me)(Z[k]) for k in range(len(Z)))
           except: #fall back to serial
-             w = Parallel(n_jobs = 1, verbose=0)(delayed(parallel_me)(Z[k]) for k in xrange(len(Z)))          
+             w = Parallel(n_jobs = 1, verbose=0)(delayed(parallel_me)(Z[k]) for k in range(len(Z)))          
           
           zmean = np.reshape(w , ( ind[0], ind[1] ) )
           del w
@@ -529,9 +529,9 @@ def rmshadows(humfile, sonpath, win=31, shadowmask=0, doplot=1):
        elapsed = (time.time() - start)
     else: # windows
        elapsed = (time.clock() - start)
-    print "Processing took ", elapsed , "seconds to analyse"
+    print("Processing took ", elapsed , "seconds to analyse")
 
-    print "Done!"
+    print("Done!")
 
 # =========================================================
 def custom_save(figdirec,root):

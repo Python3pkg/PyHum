@@ -55,12 +55,12 @@
 # =========================================================
 
 # operational
-from __future__ import division
+
 from scipy.io import loadmat
 import os, time #, sys, getopt
 try:
-   from Tkinter import Tk
-   from tkFileDialog import askopenfilename, askdirectory
+   from tkinter import Tk
+   from tkinter.filedialog import askopenfilename, askdirectory
 except:
    pass
 from joblib import Parallel, delayed, cpu_count
@@ -90,7 +90,7 @@ import matplotlib.pyplot as plt
 try:
    from mpl_toolkits.basemap import Basemap
 except:
-   print "Error: Basemap could not be imported"
+   print("Error: Basemap could not be imported")
    pass
 
 # suppress divide and invalid warnings
@@ -161,37 +161,37 @@ def map_texture(humfile, sonpath, cs2cs_args = "epsg:26949", res = 0.5, mode=3, 
 
     # prompt user to supply file if no input file given
     if not humfile:
-       print 'An input file is required!!!!!!'
+       print('An input file is required!!!!!!')
        Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
        humfile = askopenfilename(filetypes=[("DAT files","*.DAT")]) 
 
     # prompt user to supply directory if no input sonpath is given
     if not sonpath:
-       print 'A *.SON directory is required!!!!!!'
+       print('A *.SON directory is required!!!!!!')
        Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
        sonpath = askdirectory() 
 
     # print given arguments to screen and convert data type where necessary
     if humfile:
-       print 'Input file is %s' % (humfile)
+       print('Input file is %s' % (humfile))
 
     if sonpath:
-       print 'Sonar file path is %s' % (sonpath)
+       print('Sonar file path is %s' % (sonpath))
 
     if cs2cs_args:
-       print 'cs2cs arguments are %s' % (cs2cs_args)
+       print('cs2cs arguments are %s' % (cs2cs_args))
 
     if res:
        res = np.asarray(res,float)
-       print 'Gridding resolution: %s' % (str(res))      
+       print('Gridding resolution: %s' % (str(res)))      
 
     if mode:
        mode = int(mode)
-       print 'Mode for gridding: %s' % (str(mode))      
+       print('Mode for gridding: %s' % (str(mode)))      
 
     if nn:
        nn = int(nn)
-       print 'Number of nearest neighbours for gridding: %s' % (str(nn))             
+       print('Number of nearest neighbours for gridding: %s' % (str(nn)))             
 
     #if influence:
     #   influence = int(influence)
@@ -199,7 +199,7 @@ def map_texture(humfile, sonpath, cs2cs_args = "epsg:26949", res = 0.5, mode=3, 
 
     if numstdevs:
        numstdevs = int(numstdevs)
-       print 'Threshold number of standard deviations in texture lengthscale per grid cell up to which to accept: %s' % (str(numstdevs))             
+       print('Threshold number of standard deviations in texture lengthscale per grid cell up to which to accept: %s' % (str(numstdevs)))             
 
     # start timer
     if os.name=='posix': # true if linux/mac or cygwin on windows
@@ -261,7 +261,7 @@ def map_texture(humfile, sonpath, cs2cs_args = "epsg:26949", res = 0.5, mode=3, 
     dist_tvg = ((np.tan(np.radians(25)))*dep_m)-(tvg)
 
     if len(shape_star)>2:    
-       for p in xrange(len(class_fp)):
+       for p in range(len(class_fp)):
 
           e = esi[shape_port[-1]*p:shape_port[-1]*(p+1)]
           n = nsi[shape_port[-1]*p:shape_port[-1]*(p+1)]
@@ -430,7 +430,7 @@ def map_texture(humfile, sonpath, cs2cs_args = "epsg:26949", res = 0.5, mode=3, 
          vmin=np.nanmin(datm)
          vmax=np.nanmax(datm)
        
-       Parallel(n_jobs = 2, verbose=0)(delayed(doplots)(k, humlon, humlat, cs2cs_args, glon, glat, datm, sonpath, 0, vmin=vmin, vmax=vmax) for k in xrange(2)) 
+       Parallel(n_jobs = 2, verbose=0)(delayed(doplots)(k, humlon, humlat, cs2cs_args, glon, glat, datm, sonpath, 0, vmin=vmin, vmax=vmax) for k in range(2)) 
        
        #print_map(cs2cs_args, glon, glat, datm, sonpath, 0, vmin=vmin, vmax=vmax)
 
@@ -440,9 +440,9 @@ def map_texture(humfile, sonpath, cs2cs_args = "epsg:26949", res = 0.5, mode=3, 
        elapsed = (time.time() - start)
     else: # windows
        elapsed = (time.clock() - start)
-    print "Processing took ", elapsed , "seconds to analyse"
+    print("Processing took ", elapsed , "seconds to analyse")
 
-    print "Done!"
+    print("Done!")
 
 # =========================================================
 def getclass_asc(sonpath, p):
@@ -463,7 +463,7 @@ def print_contour_map(cs2cs_args, humlon, humlat, glon, glat, datm, sonpath, p, 
 
     #levels = [0,0.25,0.5,0.75,1.25,1.5,1.75,2,3,5]
           
-    print "drawing and printing map ..."
+    print("drawing and printing map ...")
     fig = plt.figure(frameon=False)
     map = Basemap(projection='merc', epsg=cs2cs_args.split(':')[1], #26949,
      resolution = 'i', #h #f
@@ -487,7 +487,7 @@ def print_contour_map(cs2cs_args, humlon, humlat, glon, glat, datm, sonpath, p, 
     #if dogrid==1:
     if 2>1:
        if datm.size > 25000000:
-          print "matrix size > 25,000,000 - decimating by factor of 5 for display"
+          print("matrix size > 25,000,000 - decimating by factor of 5 for display")
           #map.contourf(gx[::5,::5], gy[::5,::5], datm[::5,::5], levels, cmap='YlOrRd')
           map.pcolormesh(gx, gy, datm, cmap='YlOrRd', vmin=vmin, vmax=vmax)
        else:
@@ -503,7 +503,7 @@ def print_map(cs2cs_args, glon, glat, datm, sonpath, p, vmin, vmax): #humlon, hu
 
     try:
       # =========================================================
-      print "creating kmz file ..."
+      print("creating kmz file ...")
       ## new way to create kml file  
       pixels = 1024 * 10
  
@@ -532,7 +532,7 @@ def print_map(cs2cs_args, glon, glat, datm, sonpath, p, vmin, vmax): #humlon, hu
          name='Texture Lengthscale')
 
     except:
-       print "error: map could not be created..."
+       print("error: map could not be created...")
 
 # =========================================================
 def get_grid(mode, orig_def, targ_def, merge, influence, minX, maxX, minY, maxY, res, nn, sigmas, eps, shape, numstdevs, trans, humlon, humlat):
@@ -634,7 +634,7 @@ def get_griddefs(minX, maxX, minY, maxY, res, humlon, humlat, trans):
           if 'orig_def' in locals(): 
              complete=1 
        except:
-          print "memory error: trying grid resolution of %s" % (str(res*2))
+          print("memory error: trying grid resolution of %s" % (str(res*2)))
           res = res*2
                    
     return orig_def, targ_def, grid_x, grid_y, res, shape
@@ -695,7 +695,7 @@ def getgrid_lm(humlon, humlat, merge, influence, minX, maxX, minY, maxY, res, mo
          if 'dat' in locals(): 
             complete=1 
       except:
-         print "memory error: trying grid resolution of %s" % (str(res*2))
+         print("memory error: trying grid resolution of %s" % (str(res*2)))
          res = res*2
 
    return dat, stdev, counts, res, complete
@@ -710,23 +710,23 @@ def getmesh(minX, maxX, minY, maxY, res):
          if 'grid_x' in locals(): 
             complete=1 
       except:
-         print "memory error: trying grid resolution of %s" % (str(res*2))
+         print("memory error: trying grid resolution of %s" % (str(res*2)))
          res = res*2
          
    return grid_x, grid_y, res
 
 # =========================================================
 def getXY(e,n,yvec,d,t,extent):
-   print "getting point cloud ..." 
+   print("getting point cloud ...") 
 
    #o = Parallel(n_jobs = cpu_count(), verbose=0)(delayed(getxy)(e[k], n[k], yvec, d[k], t[k], extent) for k in xrange(len(n)))
 
    try:
-      o = Parallel(n_jobs = cpu_count(), verbose=0)(delayed(xyfunc)(e[k], n[k], yvec, d[k], t[k], extent) for k in xrange(len(n)))  
+      o = Parallel(n_jobs = cpu_count(), verbose=0)(delayed(xyfunc)(e[k], n[k], yvec, d[k], t[k], extent) for k in range(len(n)))  
    except:
-      o = Parallel(n_jobs = 1, verbose=0)(delayed(xyfunc)(e[k], n[k], yvec, d[k], t[k], extent) for k in xrange(len(n)))  
+      o = Parallel(n_jobs = 1, verbose=0)(delayed(xyfunc)(e[k], n[k], yvec, d[k], t[k], extent) for k in range(len(n)))  
       
-   X, Y = zip(*o)
+   X, Y = list(zip(*o))
 
    # X flatten and stack
    X = np.asarray(X,'float')
